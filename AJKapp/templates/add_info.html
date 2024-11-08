@@ -1,0 +1,140 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}AJKupdates - Edit you'r info{% endblock title %}
+{% block style %}
+  <style>
+    .profilepic{
+        border: 3px solid black;
+        border-radius: 70px;
+        width: 150px;
+    }
+
+    .profileedit{
+        color: brown;
+        position: absolute;
+        top: 30%;
+        left: 51%;
+    }
+
+    @media (max-width: 450px) {  
+    .profileedit{
+        position: absolute;
+        top: 30%;
+    } 
+    }
+    @media (max-width: 360px) {  
+    .profileedit{
+        position: absolute;
+        top: 30%;
+        left: 45%;
+    } 
+}  
+
+    @media (max-width: 315px) {  
+    .profileedit{
+        position: absolute;
+        top: 27%;
+        left: 42%;
+    } 
+    }
+
+    #file-upload {  
+            display: none; /* Hide the default file input */  
+        }  
+        /* Style for the upload button */  
+        .upload-button {  
+            display: inline-block;  
+            padding: 10px 15px;  
+            background-color: #4CAF50;  
+            color: white;  
+            border: none;  
+            cursor: pointer;  
+            border-radius: 5px;  
+            text-align: center;  
+        }  
+        /* Style for the clickable image */  
+        .clickable-image {  
+            width: 100px; /* Set the desired width */  
+            cursor: pointer;  
+        }  
+
+        .thumbnail {  
+            width: 100px;  
+            height: auto;  
+            cursor: pointer;  
+            margin: 10px;  
+        }  
+
+        input{
+            border: none;
+            border-bottom: 1px solid black;
+        }
+
+        input:active{
+            border: none;
+            border-bottom: 1px solid blue;
+
+        }
+
+        input:hover{
+            border: none;
+            border-bottom: 2px solid blue;
+
+        }
+
+        .btn-primary{
+            margin-left: 45%;
+            margin-top: 10px;
+        }
+  </style>
+{% endblock style %}
+{% block body %}
+<div class="container">
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+     
+        <div class="row justify-content-center text-center">
+            <div class="col-4">
+                <img class="text-danger profilepic mt-3 img-fluid" src="{% static 'dp.jpeg' %}" alt="gchchc">
+                <input type="file" id="file-upload" accept="image/*" name="addprofilepic" onchange="previewImage(event)">
+                    <!-- <input type="file" name="profilepic"> -->
+                <i class="fa-solid fa-user-pen profileedit clickable-image" id="upload-image"></i>
+                
+                <!-- <div id="preview-container" style="margin-top: 15px;">d</div>   -->
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-7 text-center">
+                <label for="bio" class="fw-bold">Bio:</label>
+                <input name="addbio" id="bio" type="text" placeholder="{{userprofile.bio}}">
+            </div>
+        </div>   
+        <button type="submit" class="btn btn-primary text-center">Update</button>
+    </form>
+</div>
+
+
+
+
+{% block script %}
+  
+<script>  
+        // Add click event to the image to trigger the file input  
+        document.getElementById('upload-image').onclick = function() {  
+            document.getElementById('file-upload').click();  
+        }; 
+        
+        function openModal(imageUrl) {  
+            var modal = document.getElementById("myModal");  
+            var modalImg = document.getElementById("modalImage");  
+            modal.style.display = "block";  
+            modalImg.src = imageUrl;  
+        }  
+
+        function closeModal() {  
+            var modal = document.getElementById("myModal");  
+            modal.style.display = "none";  
+        }  
+</script>  
+{% endblock script %}
+{% endblock body %}

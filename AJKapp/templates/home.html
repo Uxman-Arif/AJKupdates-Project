@@ -1,0 +1,71 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}Home Page{% endblock title %}
+{% block style %}
+  <style>
+    .postprofilepic{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+  }
+
+  .profile_bar{
+    line-height: 0px;
+  }
+
+  .user_post{
+    background-color: white;
+    border-radius: 30px;
+  }
+  
+  .post_img{
+    width: 100%;
+  }
+  </style>
+{% endblock style %}
+{% block body %}
+  <div class="container">
+        <div class="row justify-content-center">
+            {% for post in posts %}
+          <div class="col-md-7 user_post m-2 border shadow p-2 pb-3">
+              <div class="row">
+                <div class="col-2">
+                    {% if post.name.userprofile.first.profilepic %}
+                      <img src="/media/{{post.name.userprofile.first.profilepic}}" alt="" class="img-fluid postprofilepic">
+                    {% else %}
+                      <img src= "{% static 'dp.jpeg' %}" alt="" class="img-fluid postprofilepic">
+                    {% endif %}
+                    
+                  
+                </div>
+
+                <div class="col-7 profile_bar">
+                  <h5 class="text-capitalize">{{post.name.username}}</h5><br>
+                  <small>{{post.postcreated_at}}</small>
+                </div>
+
+                <div class="text-end col-2 align-self- fs-4 user-select-none">...</div>
+              </div>
+              {{post.post_text}}
+              {% if post.post_pic %}
+              <img src="/media/{{post.post_pic}}" alt="Error" class="post_img">
+              {% endif %}
+            <hr>
+            <div class="row justify-content-center text-center">
+              <!-- <form action="" method="post">{% csrf_token %} -->
+                <div class="col-4 fw-bold" type='submit' name="like"><i class="fa-regular fa-heart"></i>&nbsp;Like</div>
+                <!-- <button type="submit">like</button> -->
+              <!-- </form> -->
+              <div class="col-4 fw-bold"><i class="fa-regular fa-comment"></i>&nbsp;Comment</div>
+              <div class="col-4 fw-bold"><i class="fa-solid fa-share"></i>&nbsp;Share</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+
+      {% block script %}
+        
+      {% endblock script %}
+{% endblock body %}

@@ -1,0 +1,242 @@
+{% extends "index.html" %}  
+{% load static %}
+{% block title %}Create Post{% endblock title %}  
+{% block style %}  
+<style>  
+    .post-container {  
+        background: white;  
+        border-radius: 8px;  
+        padding: 20px;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
+        max-width: 600px;  
+        margin: auto;  
+    }  
+
+    .header {  
+        display: flex;  
+        align-items: center;  
+        margin-bottom: 15px;  
+    }  
+
+    .profile-pic {  
+        width: 50px;  
+        height: 50px;  
+        border-radius: 50%;  
+        margin-right: 15px;  
+        background-color: #ccc; /* Placeholder for profile picture */  
+    }  
+
+    .post-box {  
+        width: 100%;  
+        height: 100px;  
+        border: 1px solid #ccc;  
+        border-radius: 5px;  
+        padding: 10px;  
+        resize: none;  
+        box-sizing: border-box;  
+        transition: box-shadow 0.3s, border-color 0.3s;  
+    }  
+
+    .post-box:focus {  
+        border: 1px solid #007bff; /* Blue border on focus */  
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);  
+        outline: none;  
+    }  
+
+    .upload-container {  
+        display: flex;  
+        align-items: center;  
+        margin-top: 10px;  
+        border: 1px solid #ccc;  
+        border-radius: 5px;  
+        padding: 10px;  
+    }  
+
+    .upload-label {  
+        flex: 1; /* Flex grow to occupy available space */  
+        color: #333; /* Text color for label */  
+        font-weight: bold; /* Bold text for label */  
+    }  
+
+    .upload-icon {  
+        font-size: 24px; /* Adjust size as needed */  
+        color: #007bff;  
+        cursor: pointer;  
+    }  
+
+    .upload-input {  
+        display: none; /* Hide the actual file input */  
+    }  
+
+    .upload-btn {  
+        display: flex;  
+        align-items: center;  
+        background-color: #007bff;  
+        color: white;  
+        border: none;  
+        border-radius: 5px;  
+        padding: 10px 15px;  
+        margin-top: 10px;  
+        cursor: pointer;
+        padding-left: 45%;
+        transition: background-color 0.3s;  
+    }  
+
+    .upload-btn:hover , .generate-btn:hover{  
+        background-color: #0056b3;  
+    } 
+    
+    .profilepic{
+        border: 3px solid black;
+        border-radius: 70px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .aitext{
+        resize: none;
+    }
+
+    .generate-btn{
+        border-radius: 5px;  
+        padding: 10px 15px;  
+        margin-top: 10px;  
+        cursor: pointer;
+        width: 100%;
+        background-color: #007bff; 
+        transition: background-color 0.3s; 
+    }
+
+.code-container {  
+    position: relative;  
+    background: #2d2d2d;  
+    color: #f8f8f2;  
+    padding: 15px;  
+    border-radius: 5px;  
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  
+    width: 100%;  
+    overflow: auto;  
+}  
+
+.copy-btn {  
+    position: absolute;  
+    top: 10px;  
+    right: 10px;  
+    background: none;  
+    border: none;  
+    color: #f8f8f2;  
+    cursor: pointer;  
+    font-size: 18px;  
+}  
+
+pre {  
+    margin: 0;  
+    white-space: pre-wrap; /* Allows wrapping of long code lines */  
+    word-wrap: break-word; /* Prevents overflow */  
+}
+</style>  
+{% endblock style %}  
+{% block body %}  
+<div class="container">  
+    <div class="post-container mt-5">  
+        <div class="header row">  
+            <div class="col-7 align-self-start">
+
+                {% if userprofile.profilepic %}
+              <img class="text-danger profilepic mt-3 img-fluid" src="/media/{{userprofile.profilepic}}" alt="Error">
+              {% else %}
+              
+              <img class="text-danger profilepic mt-3 img-fluid" src="{% static 'dp.jpeg' %}" alt="gchchc">
+              {% endif %}
+                <span class="fw-bold text-capitalize ms-2 fs-4">{{user.username}}</span>  
+            </div>
+                
+            <div class="text-end col-4 fs-4 user-select-none">...</div>
+        </div>  
+        
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <textarea name="post_description" class="post-box" placeholder="What's on your mind?"></textarea>  
+            <div class="upload-container">  
+                <div class="upload-label">Add to your post</div>  
+                <i class="fas fa-image upload-icon" id="upload-icon" title="Upload an image"></i>  
+                <input type="file" class="upload-input" id="file-upload" accept="image/*" name="posting" onchange="previewImage(event)">  
+            </div>  
+            <button class="upload-btn w-100 text-center fw-bold" type="submit">Post</button>  
+        </form>
+    </div>
+
+
+
+
+    <div class="post-container mt-4">  
+        <div class="row justify-content-around">
+            <div class="col-9">
+                <h4>Get a smarter content from AI...</h4>
+            </div>
+            <div class="col-2 text-primary"><i class="fas fa-robot"></i></div>
+        </div>
+
+        <div class="row">
+            <form action="" method="post">{% csrf_token %}
+                <div class="form-floating col-12">
+                    <textarea class="form-control aitext" placeholder="Leave a comment here" id="floatingTextarea" name="aicontent-topic"></textarea>
+                    <label for="floatingTextarea">Enter topic name here...</label>
+                </div>
+                <div class="col-12">
+                    <button class="h-100 generate-btn fw-bold btn-outline-light mb-3" type="submit">Generate</button>
+                </div>
+            </form>
+
+            {% if messages %}
+                {% for message in messages %}
+                  <div class="code-container">  
+                    <button class="copy-btn" onclick="copyToClipboard()">📋</button>
+                    <pre id="codeBlock"> <hr> 
+                    {{message}}
+                    </pre>  
+                    </div>  
+                {% endfor %}
+              
+            {% endif %}
+            
+        </div>
+    </div>
+
+</div>  
+
+{% block script %}  
+<script>  
+    document.getElementById('upload-icon').onclick = function() {  
+        document.getElementById('file-upload').click();  
+    };   
+    
+    function previewImage(event) {  
+        const file = event.target.files[0];  
+        if (file) {  
+            const reader = new FileReader();  
+            reader.onload = function(e) {  
+                // You can add code here to display the preview of the image if desired.  
+                console.log(e.target.result); // For demo purposes  
+            }  
+            reader.readAsDataURL(file);  
+        }  
+    }  
+
+
+
+    // ai answer
+    function copyToClipboard() {  
+    const codeBlock = document.getElementById('codeBlock');  
+    const range = document.createRange();  
+    range.selectNode(codeBlock);  
+    window.getSelection().removeAllRanges(); // Clear previous selections  
+    window.getSelection().addRange(range); // Select the text  
+    document.execCommand('copy'); // Copy to clipboard  
+    window.getSelection().removeAllRanges(); // Deselect the text  
+
+    // Optional: Alert or give feedback that the code was copied  
+    alert("Code copied to clipboard!");  
+}
+</script>  
+{% endblock script %}  
+{% endblock body %}

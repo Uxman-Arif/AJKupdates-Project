@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System - Student Sign In</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'bootstrap.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+</head>
+<style>
+    .signuprow{
+        margin-top: 100px;
+    }
+
+    .container-fluid{
+        background: url("{%static 'signupbg.jpg' %}") no-repeat center / cover;
+        background-size: 100% 100%;
+        padding-bottom: 40px;
+    }
+
+    .signuphead{
+        font-size: 80px;
+        font-family: cursive;
+        text-shadow: 2px 2px 2px brown;
+    }
+    .signupbtn{
+        transition: all 0.3s ease-in-out 0.3s;
+    }
+
+    .signupcol{
+        border: 2px double white;
+        border-radius: 50px;
+    }
+
+    .signupbtn:hover{
+        background-color: black;
+        color: brown;
+        font-weight: bold;
+    }
+
+    .porhead{
+        text-shadow: 2px 2px 2px rgb(26, 141, 76);
+        font-family: cursive;
+    }
+</style>
+<body>
+    <!-- <img src="{%static 'bg.jpg' %}" alt="er"> -->
+    <div class="container-fluid">
+        <h1 class="text-capitalize fw-bolder porhead text-center text-light">welcome to Student Portal!</h1>
+        <div class="row justify-content-start align-items-center signuprow">
+            <div class="col-md-6 text-center text-light signupcol py-5">
+
+                <h1 class="mb-5 fw-bold signuphead text-success user-select-none">Sign Up Here</h1>
+                <form action="" method="post">{% csrf_token %}
+                    <label class="fw-bold" for="name">Name*:</label>
+                    <input  class="m-2" name="signupname" id="name" type="text" required><br>
+
+                    <label class="fw-bold" for="email">Email*:</label>
+                    <input  class="m-2" name="email" id="email" type="email" required><br>
+            
+                    <label class="fw-bold" for="password">Password*:</label>
+                    <input  class="m-2" name="signuppassword" id="password" type="password" required><br>
+                     <button type="submit" class="btn btn-primary">SignUp</button>
+                </form>
+                {% if messages %}
+                  {% for message in messages %}
+                    <span>{{message}}</span>
+                  {% endfor %}
+                {% endif %}
+                <span>Already have account <a href="signin">Sign in</a></span>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+
+<script>
+    const myModal = document.getElementById('myModal')
+    const myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', () => {
+    myInput.focus()
+})
+</script>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System - Student Sign In</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'bootstrap.css' %}">
+</head>
+<style>
+    .signinrow{
+        margin-top: 100px;
+    }
+
+    .container-fluid{
+        background: url("{%static 'signupbg.jpg' %}") no-repeat center / cover;
+        background-size: 100% 100%;
+        padding-bottom: 40px;
+    }
+
+    .signincol{
+        border: 2px double white;
+        border-radius: 50px;
+    }
+
+    .signinhead{
+        font-size: 80px;
+        font-family: cursive;
+        text-shadow: 2px 2px 2px brown;
+    }
+    .signinbtn{
+        transition: all 0.3s ease-in-out 0.3s;
+    }
+
+    .signinbtn:hover{
+        background-color: black;
+        color: brown;
+        font-weight: bold;
+    }
+
+    .porhead{
+        text-shadow: 2px 2px 2px rgb(26, 141, 76);
+        font-family: cursive;
+    }
+</style>
+<body>
+    <!-- <img src="{%static 'bg.jpg' %}" alt="er"> -->
+    <div class="container-fluid">
+        <h1 class="text-capitalize fw-bolder porhead text-center text-light">welcome to Student Portal!</h1>
+        <div class="row justify-content-start align-items-center signinrow">
+            <div class="col-md-6 text-center text-light signincol py-5">
+                <h1 class="mb-5 fw-bold signinhead text-success user-select-none">Sign In Here</h1>
+                <form action="" method="post">{% csrf_token %}
+                    <label class="fw-bold" for="name">Name*:</label>
+                    <input class="m-2" name="signinname" id="name" type="text" required><br>
+                
+                    <label class="fw-bold" for="Email">Email*:</label>
+                    <input class="m-2" name="signinEmail" id="Email" type="email" required><br>
+            
+                    <label class="fw-bold" for="password">Password*:</label>
+                    <input class="m-2" name="signinpassword" id="password" type="password" required><br>
+                    <button class="btn btn-primary m-2 signinbtn">Sign In</button>
+                </form>
+                {% if messages %}  
+                    {% for message in messages %}  
+                        <div class="text-danger">{{ message }}
+
+                            {% if message.tags == 'info' %}
+                                <a href="{% url 'otp' user.id %}">Verify</a><br>
+                            {% endif %}
+                        </div>
+                    {% endfor %}  
+                {% endif %}
+                <span>Not Yet account <a href="signup">Sign up</a></span>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
